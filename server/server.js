@@ -81,7 +81,7 @@ const server = http.createServer(app);
 
 export const io = new Server(server, {
   cors: {
-    origin: "*", // your frontend URL if needed
+    origin: "https://waste-zero-app.vercel.app", // your frontend URL if needed
     methods: ["GET", "POST"],
   },
 });
