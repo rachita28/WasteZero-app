@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private apiUrl = 'https://wastezero-app-1.onrender.com/api';  // MAKE SURE BACKEND IS 5000
+  private apiUrl = 'https://wastezero-app-1.onrender.com/api/v1'; // MAKE SURE BACKEND IS 5000
 
   constructor(private http: HttpClient) {}
 
