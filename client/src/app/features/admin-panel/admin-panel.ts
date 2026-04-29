@@ -73,7 +73,7 @@ export interface Report {
   styleUrl: './admin-panel.css'
 })
 export class AdminPanel implements OnInit {
-  private apiUrl = 'http://localhost:5000/api/v1/admin';
+  private apiUrl = 'https://wastezero-app-1.onrender.com';
   sidebarOpen: boolean = false;
 
 toggleSidebar() {
