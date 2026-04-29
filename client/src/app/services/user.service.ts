@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  // Naye server.js ke mutabik path /api/v1 se shuru hoga
+  // Aapka Render Backend URL
   private apiUrl = 'https://wastezero-app-1.onrender.com/api/v1'; 
 
   constructor(private http: HttpClient) {}
@@ -17,11 +17,12 @@ export class UserService {
   }
 
   login(credentials: any): Observable<any> {
-    // server.js mein authRoutes /api/v1 par mounted hain
-    return this.http.post(`${this.apiUrl}/login`, credentials);
+    // Agar backend mein path /auth/login hai toh yahan badal dein
+    return this.http.post(`${this.apiUrl}/auth/login`, credentials);
   }
 
   signup(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData);
+    // Aapke console error ke mutabik rasta '/auth/signup' hai
+    return this.http.post(`${this.apiUrl}/auth/signup`, userData);
   }
 }
