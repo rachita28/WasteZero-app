@@ -19,7 +19,7 @@ export class Login {
   constructor(private http: HttpClient, private router: Router) {}
 
   onLogin() {
-    const apiUrl = 'http://localhost:5000/api/v1/auth/login';
+    const apiUrl = 'https://wastezero-app-1.onrender.com';
 
     this.http.post<{ token: string; message: string; user: any }>(apiUrl, this.loginData)
       .subscribe({
