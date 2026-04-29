@@ -36,9 +36,13 @@ const limiter = rateLimit({
 });
 app.use("/api/", limiter);
 
-// -------------------- ROOT ROUTE (FIXED ERROR) --------------------
+// -------------------- ROOT + HEALTH (VERY IMPORTANT) --------------------
 app.get("/", (req, res) => {
   res.send("🚀 Backend is running successfully");
+});
+
+app.get("/api/v1/health", (req, res) => {
+  res.json({ status: "ok", uptime: process.uptime() });
 });
 
 // -------------------- ROUTES --------------------
@@ -49,15 +53,10 @@ app.use("/api/v1/messages", messageRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/v1/admin", adminPanelRoutes);
 
-// Health Check
-app.get("/api/v1/health", (req, res) => {
-  res.json({ status: "ok", uptime: process.uptime() });
-});
-
 // -------------------- ERROR HANDLER --------------------
 app.use(errorHandler);
 
-// -------------------- DATABASE CONNECTION --------------------
+// -------------------- DATABASE --------------------
 mongoose
   .connect(process.env.DB_URI)
   .then(() => console.log("✅ MongoDB Connected"))
@@ -66,7 +65,7 @@ mongoose
 // -------------------- SOCKET.IO --------------------
 export const io = new Server(server, {
   cors: {
-    origin: "https://waste-zero-app.vercel.app",
+    origin: "https://waste-zero-app.vercel.app", // your frontend
     methods: ["GET", "POST"],
   },
 });
