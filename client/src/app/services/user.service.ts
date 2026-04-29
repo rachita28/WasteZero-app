@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   // Aapka Render Backend URL
-  private apiUrl = 'https://wastezero-app-1.onrender.com/api/v1'; 
+  private apiUrl = 'https://wastezero-app-1.onrender.com/api/v1';
 
   constructor(private http: HttpClient) {}
 
