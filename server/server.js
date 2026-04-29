@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
-import rateLimit from "express-rate-limit";
 import http from "http";
 import { Server } from "socket.io";
 
@@ -25,23 +24,12 @@ const server = http.createServer(app);
 
 // -------------------- MIDDLEWARES --------------------
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Strict CORS for security
-app.use(cors({
-  origin: "https://waste-zero-app.vercel.app", 
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+// Sabhi origins allow karne ke liye (Deployment testing ke liye best hai)
+app.use(cors()); 
 
 app.use(morgan("dev"));
-
-// Rate Limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  message: { error: "Too many requests, try again later" },
-});
-app.use("/api/", limiter);
 
 // -------------------- ROOT + HEALTH --------------------
 app.get("/", (req, res) => {
@@ -52,9 +40,11 @@ app.get("/api/v1/health", (req, res) => {
   res.json({ status: "ok", uptime: process.uptime() });
 });
 
-// -------------------- ROUTES (Standardized to v1) --------------------
+// -------------------- ROUTES (v1) --------------------
+// Note: Agar authRoutes ke andar /login aur /register hai, 
+// toh final URL: https://wastezero-app-1.onrender.com/api/v1/login hoga.
 app.use("/api/v1", authRoutes);
-app.use("/api/v1/opportunities", opportunityRoutes); // Standardized
+app.use("/api/v1/opportunities", opportunityRoutes);
 app.use("/api/v1/pickup", pickupRoutes);
 app.use("/api/v1/messages", messageRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
@@ -66,7 +56,7 @@ app.use(errorHandler);
 // -------------------- SOCKET.IO --------------------
 export const io = new Server(server, {
   cors: {
-    origin: "https://waste-zero-app.vercel.app",
+    origin: "*", // Sabhi frontend links allow karega
     methods: ["GET", "POST"],
   },
 });
@@ -79,13 +69,18 @@ io.on("connection", (socket) => {
 });
 
 // -------------------- DATABASE & SERVER START --------------------
-const PORT = process.env.PORT || 10000; // Defaulting to Render's preferred port
+const PORT = process.env.PORT || 10000;
+const DB_URI = process.env.DB_URI;
+
+if (!DB_URI) {
+  console.error("❌ DB_URI is missing in Environment Variables!");
+  process.exit(1);
+}
 
 mongoose
-  .connect(process.env.DB_URI)
+  .connect(DB_URI)
   .then(() => {
     console.log("✅ MongoDB Connected");
-    // Start listening only after DB is successful
     server.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
