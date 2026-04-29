@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private apiUrl = 'https://wastezero-app-1.onrender.com'; 
+  // Naye server.js ke mutabik path /api/v1 se shuru hoga
+  private apiUrl = 'https://wastezero-app-1.onrender.com/api/v1'; 
 
   constructor(private http: HttpClient) {}
 
@@ -16,10 +17,11 @@ export class UserService {
   }
 
   login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users/login`, credentials);
+    // server.js mein authRoutes /api/v1 par mounted hain
+    return this.http.post(`${this.apiUrl}/login`, credentials);
   }
 
   signup(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users/register`, userData);
+    return this.http.post(`${this.apiUrl}/register`, userData);
   }
 }
