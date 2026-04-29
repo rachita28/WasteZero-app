@@ -17,7 +17,7 @@ interface Opportunity {
   date?: string;
 }
 
-const API = 'http://localhost:5000/api/opportunities';
+const API = 'https://wastezero-app-1.onrender.com/api/opportunities';
 
 @Component({
   selector: 'app-opportunities',
@@ -95,7 +95,7 @@ applyToOpportunity(opportunityId: string | undefined, opp?: any) {
     return;
   }
 
-  const applyUrl = `http://localhost:5000/api/opportunities/${opportunityId}/apply`;
+  const applyUrl = 'https://wastezero-app-1.onrender.com/api/opportunities/${opportunityId}/apply';
 
   // Optional payload: include user id from localStorage if available, or other fields
   const payload = {
