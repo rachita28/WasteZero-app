@@ -25,7 +25,14 @@ const server = http.createServer(app);
 
 // -------------------- MIDDLEWARES --------------------
 app.use(express.json());
-app.use(cors());
+
+// Strict CORS for security
+app.use(cors({
+  origin: "https://waste-zero-app.vercel.app", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(morgan("dev"));
 
 // Rate Limiting
@@ -36,18 +43,18 @@ const limiter = rateLimit({
 });
 app.use("/api/", limiter);
 
-// -------------------- ROOT + HEALTH (VERY IMPORTANT) --------------------
+// -------------------- ROOT + HEALTH --------------------
 app.get("/", (req, res) => {
-  res.send("🚀 Backend is running successfully");
+  res.send("🚀 WasteZero Backend is running successfully");
 });
 
 app.get("/api/v1/health", (req, res) => {
   res.json({ status: "ok", uptime: process.uptime() });
 });
 
-// -------------------- ROUTES --------------------
+// -------------------- ROUTES (Standardized to v1) --------------------
 app.use("/api/v1", authRoutes);
-app.use("/api/opportunities", opportunityRoutes);
+app.use("/api/v1/opportunities", opportunityRoutes); // Standardized
 app.use("/api/v1/pickup", pickupRoutes);
 app.use("/api/v1/messages", messageRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
@@ -56,31 +63,34 @@ app.use("/api/v1/admin", adminPanelRoutes);
 // -------------------- ERROR HANDLER --------------------
 app.use(errorHandler);
 
-// -------------------- DATABASE --------------------
-mongoose
-  .connect(process.env.DB_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch((err) => console.error("❌ DB Connection Error:", err));
-
 // -------------------- SOCKET.IO --------------------
 export const io = new Server(server, {
   cors: {
-    origin: "https://waste-zero-app.vercel.app", // your frontend
+    origin: "https://waste-zero-app.vercel.app",
     methods: ["GET", "POST"],
   },
 });
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
-
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
   });
 });
 
-// -------------------- SERVER --------------------
-const PORT = process.env.PORT || 5000;
+// -------------------- DATABASE & SERVER START --------------------
+const PORT = process.env.PORT || 10000; // Defaulting to Render's preferred port
 
-server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+mongoose
+  .connect(process.env.DB_URI)
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+    // Start listening only after DB is successful
+    server.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ DB Connection Error:", err);
+    process.exit(1); 
+  });
