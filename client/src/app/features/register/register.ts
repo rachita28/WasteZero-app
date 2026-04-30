@@ -35,7 +35,7 @@ export class Register {
       return;
     }
     const { confirmPassword, ...apiData } = this.registerData;
-    const apiUrl = 'http://localhost:5000/api/v1/auth/signup';
+    const apiUrl = 'https://wastezero-app-1.onrender.com/api/v1/auth/signup';
     this.http.post<{ message: string; userId: string }>(apiUrl, apiData)
       .subscribe({
         next: (res) => {
