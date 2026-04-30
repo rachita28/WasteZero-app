@@ -175,7 +175,7 @@ export class Dashboard implements OnInit, OnDestroy {
   };
 
   // API URLs - Centralized configuration
-  private readonly API_BASE = 'https://wastezero-app-1.onrender.com';
+  private readonly API_BASE = 'https://wastezero-app-1.onrender.com/api/v1';
   private readonly adminApiUrl = `${this.API_BASE}/admin`;
   private readonly dashboardApiUrl = `${this.API_BASE}/dashboard`;
   private readonly messagesApiUrl = `${this.API_BASE}/messages`;
