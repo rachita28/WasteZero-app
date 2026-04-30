@@ -42,7 +42,7 @@ export class Register {
           alert('Registration successful! Please login.');
         },
         error: (err) => {
-          alert('Registration failed: ' + err.error?.error || err.message);
+          alert('Registration failed: ' + (err.error?.message || err.error?.error || err.message || 'Unknown error'));
         }
       });
 
