@@ -27,7 +27,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Sabhi origins allow karne ke liye (Deployment testing ke liye best hai)
-app.use(cors()); 
+app.use(cors({
+  origin: '*',
+  credentials: true
+}));
 
 app.use(morgan("dev"));
 
