@@ -18,8 +18,7 @@ export class PostEditComponent implements OnInit {
   isSaving = false;
   message = '';
 
-  private apiUrl = 'http://localhost:3000/posts'; // backend base URL
-
+  private apiUrl = 'https://wastezero-app-1.onrender.com/posts';
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
