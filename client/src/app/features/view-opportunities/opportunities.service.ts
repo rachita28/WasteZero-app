@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OpportunitiesService {
-  private API_URL = 'http://localhost:5000/api/opportunities';
+  private API_URL = 'https://wastezero-app-1.onrender.com/api/opportunities';
 
   constructor(private http: HttpClient) {}
 
