@@ -38,9 +38,10 @@ export class Register {
     const apiUrl = 'https://wastezero-app-1.onrender.com/api/v1/auth/signup';
     this.http.post<{ message: string; userId: string }>(apiUrl, apiData)
       .subscribe({
-        next: (res) => {
-          alert('Registration successful! Please login.');
-        },
+       next: (res) => {
+  alert('Registration successful! Please login.');
+  this.router.navigate(['/login']);
+},
         error: (err) => {
          alert('Registration failed: ' + JSON.stringify(err.error || err.message));
         }
