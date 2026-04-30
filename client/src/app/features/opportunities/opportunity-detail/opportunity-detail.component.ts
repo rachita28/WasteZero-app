@@ -17,7 +17,7 @@ interface Opportunity {
   imageUrl?: string;
 }
 
-const API = 'http://localhost:5000/api/opportunities';
+const API = 'https://wastezero-app-1.onrender.com/api/opportunities';
 
 @Component({
   selector: 'app-opportunity-detail',
