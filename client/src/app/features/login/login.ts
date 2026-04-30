@@ -19,7 +19,7 @@ export class Login {
   constructor(private http: HttpClient, private router: Router) {}
 
   onLogin() {
-    const apiUrl = 'https://wastezero-app-1.onrender.com';
+    const apiUrl = 'https://wastezero-app-1.onrender.com/api/v1/auth/login';
 
     this.http.post<{ token: string; message: string; user: any }>(apiUrl, this.loginData)
       .subscribe({
@@ -51,7 +51,7 @@ export class Login {
   }
 
   private getUserProfileAfterLogin(token: string) {
-    const profileUrl = 'http://localhost:5000/api/v1/profile';
+    const profileUrl = 'https://wastezero-app-1.onrender.com/api/v1/profile';
     const headers = { Authorization: `Bearer ${token}` };
     
     this.http.get<{ success: boolean; user: any }>(profileUrl, { headers })
