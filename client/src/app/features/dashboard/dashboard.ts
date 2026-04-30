@@ -399,7 +399,7 @@ getVolunteers() {
     return;
   }
 
-  this.http.get("http://localhost:5000/api/v1/volunteers", {
+  this.http.get("https://wastezero-app-1.onrender.com/api/v1/volunteers", {
     headers: {
       Authorization: `Bearer ${token}`
     }
