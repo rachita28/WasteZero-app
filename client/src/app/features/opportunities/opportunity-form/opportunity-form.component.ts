@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-const API = 'http://localhost:5000/api/opportunities';
-
+const API = 'https://wastezero-app-1.onrender.com/api/opportunities';
 @Component({
   selector: 'app-opportunity-form',
   standalone: true,
